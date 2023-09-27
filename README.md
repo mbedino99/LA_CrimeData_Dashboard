@@ -15,6 +15,10 @@ Weapons - most used weapon
 
 How does time of year and time of day effect the amount of crime? 
 
+Dashboard layout mockup is attached in repo.
+
+(sketch_of_final_design.png)
+
 Dataset:
 https://www.kaggle.com/datasets/nathaniellybrand/los-angeles-crime-dataset-2020-present 
 
@@ -23,6 +27,16 @@ https://geohub.lacity.org/datasets/lahub::lapd-police-stations/explore
 https://geohub.lacity.org/search?collection=Dataset&q=police
 
 Github Repository link: https://github.com/mbedino99/LA_CrimeData_Dashboard.git
+
+Images for Inspiration:
+
+https://i.stack.imgur.com/et6p5.png
+
+https://i.stack.imgur.com/PFxoj.png
+
+https://www.losangelesblade.com/content/files/2021/11/LA-LGBTQ-Heat-Map-e1636571868231.png
+
+
 
 
 ● Three or four screenshots of relevant, “inspiring” visualizations that show your creative ideas 
