@@ -15,9 +15,7 @@ Weapons - most used weapon
 
 How does time of year and time of day effect the amount of crime? 
 
-Dashboard layout mockup is attached in repo.
-
-(sketch_of_final_design.png)
+Dashboard layout mockup is attached in repo. (sketch_of_final_design.png)
 
 Dataset:
 https://www.kaggle.com/datasets/nathaniellybrand/los-angeles-crime-dataset-2020-present 
