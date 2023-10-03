@@ -16,19 +16,9 @@ engine = create_engine("sqlite:///LA_Crime_Data.sqlite")
 
 # Write dataframe to SQL database
 df = pd.read_csv('DataSample.csv')
-# drop unnessesary columns
-# df = df.drop(['DR_NO','Date Rptd', 'Rpt Dist No', 'Part 1-2', 
-#               'Mocodes','Vict Descent', 'Premis Cd','Weapon Used Cd', 'Status',
-#               'Crm Cd 2', 'Crm Cd 3', 'Crm Cd 4'], axis=1)
+
 
 df.to_sql('LA_Crime_Data', con= engine, if_exists='replace', index=False)
-
-
-# Replace 'your_geojson_file.geojson' with the path to your local GeoJSON file
-# gdf = gpd.read_file('LAPD_Police_Stations.geojson')
-
-# print(gdf.head())
-
 
 #################################################
 # Flask Setup
