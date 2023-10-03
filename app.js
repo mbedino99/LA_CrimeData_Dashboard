@@ -25,6 +25,9 @@ promise3 = d3.json(areaUrl)
 promise3.then((data) => console.log(data))
 
 
+
+
+
 // Create the map object
 var map = L.map('map').setView([34.0319344,-118.2644802], 8);
 
