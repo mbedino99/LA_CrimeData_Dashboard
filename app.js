@@ -1,4 +1,29 @@
 
+// Import data from local sqlite server (Run the python file first)
+const dataUrl = 'http://127.0.0.1:5000'
+
+// establish the promise
+promise1 = d3.json(dataUrl)
+
+// log the data
+promise1.then((data) => console.log(data))
+
+const geoUrl = 'http://127.0.0.1:5000/stations'
+
+// establish the promise
+promise2 = d3.json(geoUrl)
+
+// log the data
+promise2.then((data) => console.log(data))
+
+const areaUrl = 'http://127.0.0.1:5000/cityareas'
+
+// establish the promise
+promise3 = d3.json(areaUrl)
+
+// log the data
+promise3.then((data) => console.log(data))
+
 
 // Create the map object
 var map = L.map('map').setView([34.0319344,-118.2644802], 8);
@@ -12,6 +37,28 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // ADD DIFFERENT MAP TYPES 
 // ADD LAYERS TO THE MAP
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Initialize all of the charts and drop-downs
 init()
 
 // D3 event listener for Disctrict Selector
