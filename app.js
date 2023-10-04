@@ -14,7 +14,10 @@ const geoUrl = 'http://127.0.0.1:5000/stations'
 promise2 = d3.json(geoUrl)
 
 // log the data
-promise2.then((data) => console.log(data))
+promise2.then((data) => {
+    console.log(data)
+    setStations(data)
+})
 
 const areaUrl = 'http://127.0.0.1:5000/cityareas'
 
@@ -22,9 +25,13 @@ const areaUrl = 'http://127.0.0.1:5000/cityareas'
 promise3 = d3.json(areaUrl)
 
 // log the data
-promise3.then((data) => console.log(data))
-
-
+promise3.then((data) => {
+    
+    console.log(data)
+    setDistrict(data)
+    
+    }    
+)
 
 
 
@@ -42,19 +49,179 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 
+function setStations(data) {
+
+    // let coordinates = data.features[0].geometry.coordinates
+    console.log(data.features.length)
+
+    for (let i = 0; i < data.features.length; i++) {
+
+        // Note that the geojson data reversed the lat and long coordinates.
+        let coordinates = data.features[i].geometry.coordinates
+        let longitude = coordinates[0]
+        let latitude = coordinates[1]
+
+        // console.log(coordinates)
+
+        let station = data.features[i].properties;
+
+        L.marker([latitude,longitude])
+        .bindPopup(`<h1>${station.DIVISION}</h1> <hr> <h3>Location ${station.LOCATION.toLocaleString()}</h3>`)
+        .addTo(map)
+    }
+
+}
+
+function setDistrict(data) {
+
+    let coordinates = data.features[0].geometry.coordinates
+    console.log(data.features[0].geometry.coordinates[0])
+
+    // try {
+    //     // Code that may cause an exception
+    //     var x = undefinedVariable; // This will throw a ReferenceError
+    //     console.log("This line won't be executed if an exception occurs.");
+    // } catch (error) {
+    //     // Code to handle the exception
+    //     console.error("An error occurred:", error.message);
+    // } finally {
+    //     // Code that always runs, whether an exception occurred or not
+    //     console.log("This line always runs.");
+    // }
 
 
+    for (let i = 0; i < data.features.length; i++) {
+
+        if (data.features[i].geometry.coordinates.length === 2) {
+
+            // Note that the geojson data reversed the lat and long coordinates.
+            let polyCoordinates1 = data.features[i].geometry.coordinates[0]
+            let polyCoordinates2 = data.features[i].geometry.coordinates[1]
+            // console.log(polyCoordinates1)
+
+            // Switched coordinates with latitude first
+            var fixedCoords1 = polyCoordinates1.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // Switched coordinates with latitude first
+            var fixedCoords2 = polyCoordinates2.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // console.log(fixedCoords)
+
+            L.polygon([[fixedCoords1,fixedCoords2]], {
+                // color: "yellow",
+                // fill: false,
+                // fillOpacity: 0.75
+            }).addTo(map);
+        }
+        
+        // catch (error) {        
+        //     console.log("An error occurred");
+            
+        
+        // }
+        
+        else if (data.features[i].geometry.coordinates.length === 1) {
+        // Code that always runs, whether an exception occurred or not 
+        // console.log(fixedCoords)
+
+            // Note that the geojson data reversed the lat and long coordinates.
+            let polyCoordinates1 = data.features[i].geometry.coordinates[0]
+
+                // Switched coordinates with latitude first
+                var fixedCoords1 = polyCoordinates1.map(function(coord) {
+                    return [coord[1], coord[0]];
+                });
+
+                L.polygon([fixedCoords1], {
+                    // color: "yellow",
+                    // fillColor: "lightblue",
+                    // fillOpacity: 0.75
+                }).addTo(map);
+                }
+        else if (data.features[i].geometry.coordinates.length === 3) {
+
+            // Note that the geojson data reversed the lat and long coordinates.
+            let polyCoordinates1 = data.features[i].geometry.coordinates[0]
+            let polyCoordinates2 = data.features[i].geometry.coordinates[1]
+            let polyCoordinates3 = data.features[i].geometry.coordinates[2]
+
+            // console.log(polyCoordinates1)
+
+            // Switched coordinates with latitude first
+            var fixedCoords1 = polyCoordinates1.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // Switched coordinates with latitude first
+            var fixedCoords2 = polyCoordinates2.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // Switched coordinates with latitude first
+            var fixedCoords3 = polyCoordinates3.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // console.log(fixedCoords)
+
+            L.polygon([[fixedCoords1,fixedCoords2,fixedCoords3]], {
+                // color: "yellow",
+                // fill: false,
+                // fillOpacity: 0.75
+            }).addTo(map);
+        }
+
+        else if (data.features[i].geometry.coordinates.length === 4) {
+
+            // Note that the geojson data reversed the lat and long coordinates.
+            let polyCoordinates1 = data.features[i].geometry.coordinates[0]
+            let polyCoordinates2 = data.features[i].geometry.coordinates[1]
+            let polyCoordinates3 = data.features[i].geometry.coordinates[2]
+            let polyCoordinates4 = data.features[i].geometry.coordinates[3]
 
 
+            // console.log(polyCoordinates1)
+
+            // Switched coordinates with latitude first
+            var fixedCoords1 = polyCoordinates1.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // Switched coordinates with latitude first
+            var fixedCoords2 = polyCoordinates2.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // Switched coordinates with latitude first
+            var fixedCoords3 = polyCoordinates3.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+
+            // Switched coordinates with latitude first
+            var fixedCoords4 = polyCoordinates4.map(function(coord) {
+                return [coord[1], coord[0]];
+            });
+            // console.log(fixedCoords)
+
+            L.polygon([[fixedCoords1,fixedCoords2,fixedCoords3,fixedCoords4]], {
+                // color: "yellow",
+                // fill: false,
+                // fillOpacity: 0.75
+            }).addTo(map);
+        }
+        
+        else {console.log("Once again. I'm out od ideas")}
 
 
+        }
 
+ 
 
-
-
-
-
-
+    }
 
 
 
