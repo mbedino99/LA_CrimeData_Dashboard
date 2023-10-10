@@ -405,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 map.setView(districtCoordinates[0], 12)
             }
             else if (name == districts[1]) {
-                map.setView(districtCoordinates[1], 11)
+                map.setView(districtCoordinates[1], 12)
             }
             else if (name == districts[2]) {
                 map.setView(districtCoordinates[2], 11)
