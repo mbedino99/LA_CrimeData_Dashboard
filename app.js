@@ -5,6 +5,7 @@
 let stationMarkers = []
 // let heatMap = []
 // let cityArea = []
+// let crimeMarkers = []
 
 
 // Define variables for our tile layers.
@@ -19,6 +20,7 @@ let topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 let stationLayer = L.layerGroup(stationMarkers)
 let heatLayer = new L.layerGroup()
 let areaLayer = new L.layerGroup()
+// let crimeLayer = L.layerGroup(crimeMarkers)
 
 // Only one base layer can be shown at a time.
 let baseMaps = {
@@ -32,6 +34,7 @@ let overlayMaps = {
     LAPD: stationLayer,
     Crime: heatLayer,
     Districts: areaLayer
+    // Details: crimeLayer
 };
 
 // Create the map object
@@ -48,41 +51,61 @@ L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 // setting data to links from local API
 
-const dataUrl = 'http://127.0.0.1:5000'
+// var route = 'http://127.0.0.1:5000'
 
-const geoUrl = 'http://127.0.0.1:5000/stations'
+var dataUrl = 'http://127.0.0.1:5000/crimedata'
 
-const areaUrl = 'http://127.0.0.1:5000/cityareas'
+var geoUrl = 'http://127.0.0.1:5000/stations'
+
+var areaUrl = 'http://127.0.0.1:5000/cityareas'
 
 
+// current crime
+// var current = []
+
+function data(url) {
 // pull crime data
-let promise1 = d3.json(dataUrl).then(data => {
+let promise1 = d3.json(url).then(data => {
 
 // iterate over crime data
 
-    // console.log(data[0].AREA)
+    // emptyArray(current)
+
+    console.log(data)
 
     let heatArray = []
+    // let crimeMarkers = []
 
     for (i = 0; i < data.length; i++) {
   
-   let lat = data[i].LAT
-   let lon = data[i].LON
-   let location = [lat,lon]
-      if (location) {
+    let lat = data[i].LAT
+    let lon = data[i].LON
+    let location = [lat,lon]
+        if (location) {
         // console.log(location);
         heatArray.push(location);
-      }
-  
+        }
+
+    // let crime = data[i]["Crm Cd Desc"]
+    // let time = data[i]["TIME OCC"]
+    // let vict_age = data[i]["Vict Age"]
+    // let vict_sex = data[i]["Vict Sex"]
+
+    // crimeMarkers.push(
+    //     L.marker(location).bindPopup("<h1>" + crime + "</h1><br>",
+    //     "<h1>" + time + "</h1><br>",
+    //     "<h1>" + vict_age + "</h1><br>",
+    //     "<h1>" + vict_sex + "</h1>").addTo(crimeLayer)
+    //   );
+    // }
     }
-  
+
     L.heatLayer(heatArray, {
-      radius: 20,
-      blur: 35
+        radius: 20,
+        blur: 35
     }).addTo(heatLayer)
-
 })
-
+}
 
 // pull stations data
 let promise2 = d3.json(geoUrl).then(data => {
@@ -101,7 +124,7 @@ for (let i = 0; i < data.features.length; i++) {
     let station = data.features[i].properties;
 
     stationMarkers.push(L.marker([latitude,longitude])
-    .bindPopup(`<h1>${station.DIVISION}</h1> <hr> <h3>Location ${station.LOCATION.toLocaleString()}</h3>`).addTo(stationLayer))
+    .bindPopup(`<h6>${station.DIVISION}</h6> <hr> <h6>Location: ${station.LOCATION.toLocaleString()}</h6>`).addTo(stationLayer))
 }})
 
 // pull district areas data
@@ -243,254 +266,6 @@ let promise3 = d3.json(areaUrl).then(data => {
 
 
 
-// }
-// // establish the promise
-// promise1 = d3.json(dataUrl)
-
-// // log the data
-// promise1.then((data) => {
-    
-//     console.log(data)
-//     setHeatMap(data)
-    
-// })
-
-// // establish the promise
-// promise2 = d3.json(geoUrl)
-
-// // log the data
-// promise2.then((data) => {
-//     console.log(data)
-//     setStations(data)
-// })
-
-
-// // establish the promise
-// promise3 = d3.json(areaUrl)
-
-// // log the data
-// promise3.then((data) => {
-    
-//     console.log(data)
-//     setDistrict(data)
-// })
-
-
-
-// function setHeatMap(data) {
-
-//     console.log(data[0].AREA)
-
-//     let heatArray = []
-
-//     for (i = 0; i < data.length; i++) {
-  
-//    let lat = data[i].LAT
-//    let lon = data[i].LON
-//    let location = [lat,lon]
-//       if (location) {
-//         console.log(location);
-//         heatArray.push(location);
-//       }
-  
-//     }
-  
-//     heatMap.push(L.heatLayer(heatArray, {
-//       radius: 20,
-//       blur: 35
-//     })).addTo(heatLayer)
-
-//     };
-
-// function setStations(data) {
-
-//     // let coordinates = data.features[0].geometry.coordinates
-//     console.log(data.features.length)
-
-//     for (let i = 0; i < data.features.length; i++) {
-
-//         // Note that the geojson data reversed the lat and long coordinates.
-//         let coordinates = data.features[i].geometry.coordinates
-//         let longitude = coordinates[0]
-//         let latitude = coordinates[1]
-
-//         // console.log(coordinates)
-
-//         let station = data.features[i].properties;
-
-//         stationMarkers.push(L.marker([latitude,longitude])
-//         .bindPopup(`<h1>${station.DIVISION}</h1> <hr> <h3>Location ${station.LOCATION.toLocaleString()}</h3>`))
-//     }
-
-// }
-
-// function setDistrict(data) {
-
-//     let coordinates = data.features[0].geometry.coordinates
-//     console.log(data.features[0].geometry.coordinates[0])
-
-//     for (let i = 0; i < data.features.length; i++) {
-
-//         if (data.features[i].geometry.coordinates.length === 2) {
-
-//             // Note that the geojson data reversed the lat and long coordinates.
-//             let polyCoordinates1 = data.features[i].geometry.coordinates[0]
-//             let polyCoordinates2 = data.features[i].geometry.coordinates[1]
-//             // console.log(polyCoordinates1)
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords1 = polyCoordinates1.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords2 = polyCoordinates2.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // console.log(fixedCoords)
-
-//             cityArea.push(L.polygon([[fixedCoords1,fixedCoords2]], {
-//                 // color: "yellow",
-//                 // fill: false,
-//                 // fillOpacity: 0.75
-//             }))
-//         }
-        
-//         // catch (error) {        
-//         //     console.log("An error occurred");
-            
-        
-//         // }
-        
-//         else if (data.features[i].geometry.coordinates.length === 1) {
-//         // Code that always runs, whether an exception occurred or not 
-//         // console.log(fixedCoords)
-
-//             // Note that the geojson data reversed the lat and long coordinates.
-//             let polyCoordinates1 = data.features[i].geometry.coordinates[0]
-
-//                 // Switched coordinates with latitude first
-//                 var fixedCoords1 = polyCoordinates1.map(function(coord) {
-//                     return [coord[1], coord[0]];
-//                 });
-
-//                 cityArea.push(L.polygon([fixedCoords1], {
-//                     // color: "yellow",
-//                     // fillColor: "lightblue",
-//                     // fillOpacity: 0.75
-//                 }))
-//                 }
-//         else if (data.features[i].geometry.coordinates.length === 3) {
-
-//             // Note that the geojson data reversed the lat and long coordinates.
-//             let polyCoordinates1 = data.features[i].geometry.coordinates[0]
-//             let polyCoordinates2 = data.features[i].geometry.coordinates[1]
-//             let polyCoordinates3 = data.features[i].geometry.coordinates[2]
-
-//             // console.log(polyCoordinates1)
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords1 = polyCoordinates1.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords2 = polyCoordinates2.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords3 = polyCoordinates3.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // console.log(fixedCoords)
-
-//             cityArea.push(L.polygon([[fixedCoords1,fixedCoords2,fixedCoords3]], {
-//                 // color: "yellow",
-//                 // fill: false,
-//                 // fillOpacity: 0.75
-//             }))
-//         }
-
-//         else if (data.features[i].geometry.coordinates.length === 4) {
-
-//             // Note that the geojson data reversed the lat and long coordinates.
-//             let polyCoordinates1 = data.features[i].geometry.coordinates[0]
-//             let polyCoordinates2 = data.features[i].geometry.coordinates[1]
-//             let polyCoordinates3 = data.features[i].geometry.coordinates[2]
-//             let polyCoordinates4 = data.features[i].geometry.coordinates[3]
-
-
-//             // console.log(polyCoordinates1)
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords1 = polyCoordinates1.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords2 = polyCoordinates2.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords3 = polyCoordinates3.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-
-//             // Switched coordinates with latitude first
-//             var fixedCoords4 = polyCoordinates4.map(function(coord) {
-//                 return [coord[1], coord[0]];
-//             });
-//             // console.log(fixedCoords)
-
-//             cityArea.push(L.polygon([[fixedCoords1,fixedCoords2,fixedCoords3,fixedCoords4]], {
-//                 // color: "yellow",
-//                 // fill: false,
-//                 // fillOpacity: 0.75
-//             }))
-//         }
-        
-//         else {console.log("Once again. I'm out od ideas")}
-
-
-//         }
-
- 
-
-//     }
-
-
-d3.selectAll("#district-selector").selectAll(".dropdown-item").onchange = function(){console.log("YES")};
-
-
-// D3 event listener for Disctrict Selector
-d3.select("#district-selector").selectAll(".dropdown-item")
-    .on("click", function() {
-        // Get the text content of the clicked item
-        var selectedItemText = d3.select(this).text();
-        
-        // Do something with the selected item text
-        console.log("Selected item: " + selectedItemText);
-
-        // Update map with selected district?
-        // CODE HERE
-    });
-
-// D3 event listener for Chart Selector
-d3.select("#chart-selector").selectAll(".dropdown-item")
-    .on("click", function() {
-        // Get the text content of the clicked item
-        var selectedItemText = d3.select(this).text();
-        
-        // Do something with the selected item text
-        console.log("Selected item: " + selectedItemText);
-
-        // Update Charts with selected parameters?
-        // CODE HERE
-    });
 
 
 
@@ -502,9 +277,10 @@ function init() {
     exampleBar()
     examplePie()
     exampleScatter()
-    populateDistrictDropdown()
-    populateCrimeDropdown()
-    populateChartParamtersDropdown()
+    // data(dataUrl)
+    // populateDistrictDropdown()
+    // populateCrimeDropdown()
+    // populateChartParamtersDropdown()
 }
 
 function examplePie() {
@@ -567,50 +343,123 @@ function exampleScatter() {
     Plotly.newPlot('scatter-chart', data, layout)
 }
 
-function populateDistrictDropdown() {
+// Populates the district dropdown list with items that, when selected, set the map to the coordinates of that district
+document.addEventListener("DOMContentLoaded", function () {
 
-// Populate the dropdown menu
-    // Select the dropdown menu
-    let dropdownMenu = d3.select("#district-selector")
-    let options = dropdownMenu.select('ul')
 
-    let districts = ['West Hills','Harbor 1','Harbor 2','Harbor 3','North Valley','South Valley','Central','East LA','West LA','South LA']
+    // Get the dropdown element by its unique id
+    const dropdown1 = document.getElementById("district-selector");
+    const dropdownMenu1 = dropdown1.querySelector(".dropdown-menu");
+    const dropdownText = dropdown1.querySelector(".btn");
 
-    // Append a new option to the dopdown for every ID in the names array of the data
-    for (i =0; i < districts.length; i++) 
-        {
-        options.append("li").html(`<a class="dropdown-item" href="#">${districts[i]}</a>`)
-        }
-}
 
-function populateCrimeDropdown() {
-
-    // Populate the dropdown menu
-        // Select the dropdown menu
-        let dropdownMenu = d3.select("#crime-selector")
-        let options = dropdownMenu.select('ul')
+    let districts = ['North Valley','South Valley','West LA','Central','East LA','South LA','Harbor Districts','West Hills']
     
-        let crimes = ['Battery','Burglary','Jaywalking',"Petting the wrong dog","Forethought aftethoughts"]
+    let districtCoordinates = [[34.25994983206024,-118.45081865787508], // North Valley
+    [34.176837772589096, -118.49853515625001], // South Valley
+    [34.06950035227694,-118.47691118717194], // West LA
+    [34.085711502121676,-118.3220672607422], // Central
+    [34.091113788749794,-118.21872711181642], // East LA
+    [33.99556781046533,-118.3042895793915], // South LA
+    [33.81543900487201,-118.28810244798663], // Harbors
+    [34.21971760306106,-118.65619875490667], // West Hills
+]
+
     
-        // Append a new option to the dopdown for every ID in the names array of the data
-        for (i =0; i < crimes.length; i++) 
-            {
-            options.append("li").html(`<a class="dropdown-item" href="#">${crimes[i]}</a>`)
+    // Loop through the names array and create dropdown items
+    districts.forEach(function (name) {
+        const dropdownItem = document.createElement("a");
+        dropdownItem.classList.add("dropdown-item");
+        dropdownItem.href = "#"; // You can set the link behavior if needed
+        dropdownItem.textContent = name;
+    
+        dropdownItem.addEventListener("click", function () {
+            console.log(name); // Log the selected item's text in the console
+            dropdownText.textContent = name
+
+            if (name == districts[0]) {
+                map.setView(districtCoordinates[0], 12)
             }
-    }
-
-function populateChartParamtersDropdown() {
-
-    // Populate the dropdown menu
-        // Select the dropdown menu
-        let dropdownMenu = d3.select("#chart-selector")
-        let options = dropdownMenu.select('ul')
-    
-        let districts = ['Bar','Scatter','Pie','Horizontal Bar','Apple Pie']
-    
-        // Append a new option to the dopdown for every ID in the names array of the data
-        for (i =0; i < districts.length; i++) 
-            {
-            options.append("li").html(`<a class="dropdown-item" href="#">${districts[i]}</a>`)
+            else if (name == districts[1]) {
+                map.setView(districtCoordinates[1], 11)
             }
-    }
+            else if (name == districts[2]) {
+                map.setView(districtCoordinates[2], 11)
+            }
+            else if (name == districts[3]) {
+                map.setView(districtCoordinates[3], 11)
+            }
+            else if (name == districts[4]) {
+                map.setView(districtCoordinates[4], 11)
+            }
+            else if (name == districts[5]) {
+                map.setView(districtCoordinates[5], 11)
+            }
+            else if (name == districts[6]) {
+                map.setView(districtCoordinates[6], 11)
+            }
+            else if (name == districts[7]) {
+                map.setView(districtCoordinates[7], 11)
+            }
+            else if (name == districts[8]) {
+                map.setView(districtCoordinates[8], 15)
+            }
+            else if (name == districts[9]) {
+                map.setView(districtCoordinates[9], 15)
+            }
+          });
+
+        // Append the item to the dropdown menu
+        dropdownMenu1.appendChild(dropdownItem);
+    });
+    });
+
+
+    // Populates the district dropdown list with items that, when selected, set the map to the coordinates of that district
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    // Get the dropdown element by its unique id
+    const dropdown1 = document.getElementById("crime-selector");
+    const dropdownMenu1 = dropdown1.querySelector(".dropdown-menu");
+    const dropdownText = dropdown1.querySelector(".btn");
+
+
+    crimes = [ 'ASSAULT', 'ARSON', 'BATTERY', 'BIKE', 'BOMB', 'BUNCO', 'BURGLARY', 'COUNTERFEIT', 'CREDIT CARD', 'CRIMINAL HOMICIDE', 'DISTURBING THE PEACE', 'FORGERY', 'EMBEZZLEMENT', 'EXTORTION', 'HUMAN TRAFFICKING', 'INDECENT EXPOSURE', 'KIDNAPPING', 'LEWD', 'PICKPOCKET', 'ROBBERY', 'SHOPLIFTING', 'SEX', 'STALKING', 'THEFT', 'TRESPASSING', 'VANDALISM', 'VEHICLE','OTHER']
+
+    // Loop through the names array and create dropdown items
+    crimes.forEach(function (name) {
+        const dropdownItem = document.createElement("a");
+        dropdownItem.classList.add("dropdown-item");
+        dropdownItem.href = "#"; // You can set the link behavior if needed
+        dropdownItem.textContent = name;
+    
+        dropdownItem.addEventListener("click", function () {
+            console.log(name); // Log the selected item's text in the console
+            dropdownText.textContent = name
+
+            if (name == 'OTHER') {
+                assaultURL = `http://127.0.0.1:5000/crimedata/other/all`
+                console.log(assaultURL)
+                // current.push(`${name}`)
+                heatLayer.clearLayers()
+                data(assaultURL)
+
+            }
+
+            else {
+
+            assaultURL = `http://127.0.0.1:5000/crimedata/${name}`
+            console.log(assaultURL)
+            // current.push(`${name}`)
+            heatLayer.clearLayers()
+            data(assaultURL)
+            }
+          });
+
+        // Append the item to the dropdown menu
+        dropdownMenu1.appendChild(dropdownItem);
+    });
+    });
+
+  
