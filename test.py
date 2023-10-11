@@ -16,12 +16,12 @@ import re
 engine = create_engine("sqlite:///LA_Crime_Data.sqlite")
 
 # Write sample dataframe to SQL database
-df = pd.read_csv('DataSample.csv')
+df = pd.read_csv('DataCleaned.csv')
 df.to_sql('LA_Crime_Data', con= engine, if_exists='replace', index=False)
 
 
 # # Write cleaned data to SQL database
-# cleaned_df = pd.read_csv('Data.csv')
+# cleaned_df = pd.read_csv('DataCleaned.csv')
 # cleaned_df.to_sql('LA_Crime_Data_cleaned', con= engine, if_exists='replace', index=False)
 
 

@@ -98,22 +98,12 @@ let promise1 = d3.json(url).then(data => {
             var month = match[1]; // Contains the month (e.g., '01')
             var year = match[3];  // Contains the year (e.g., '2020')
     
-            console.log("Month:", month);
-            console.log("Year:", year);
+            // console.log("Month:", month);
+            // console.log("Year:", year);
         } else {
     console.log("No match found");
     }
-    console.log(crime, time)
-    // let vict_age = data[i]["Vict Age"]
-    // let vict_sex = data[i]["Vict Sex"]
 
-    // crimeMarkers.push(
-    //     L.marker(location).bindPopup("<h1>" + crime + "</h1><br>",
-    //     "<h1>" + time + "</h1><br>",
-    //     "<h1>" + vict_age + "</h1><br>",
-    //     "<h1>" + vict_sex + "</h1>").addTo(crimeLayer)
-    //   );
-    // }
     }
 
     L.heatLayer(heatArray, {
@@ -286,18 +276,18 @@ let promise3 = d3.json(areaUrl).then(data => {
 
 
 // Initialize all of the charts and drop-downs
-init()
+// init()
 
-function init() {
+// function init() {
 
-    exampleBar()
-    examplePie()
-    exampleScatter()
+    // exampleBar()
+    // examplePie()
+    // exampleScatter()
     // data(dataUrl)
     // populateDistrictDropdown()
     // populateCrimeDropdown()
     // populateChartParamtersDropdown()
-}
+// }
 
 function examplePie() {
     // Sample data for the pie chart
@@ -408,28 +398,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 map.setView(districtCoordinates[1], 12)
             }
             else if (name == districts[2]) {
-                map.setView(districtCoordinates[2], 11)
+                map.setView(districtCoordinates[2], 12)
             }
             else if (name == districts[3]) {
-                map.setView(districtCoordinates[3], 11)
+                map.setView(districtCoordinates[3], 12.5)
             }
             else if (name == districts[4]) {
-                map.setView(districtCoordinates[4], 11)
+                map.setView(districtCoordinates[4], 13)
             }
             else if (name == districts[5]) {
-                map.setView(districtCoordinates[5], 11)
+                map.setView(districtCoordinates[5], 12)
             }
             else if (name == districts[6]) {
                 map.setView(districtCoordinates[6], 11)
             }
             else if (name == districts[7]) {
-                map.setView(districtCoordinates[7], 11)
+                map.setView(districtCoordinates[7], 15)
             }
             else if (name == districts[8]) {
                 map.setView(districtCoordinates[8], 15)
             }
             else if (name == districts[9]) {
-                map.setView(districtCoordinates[9], 15)
+                map.setView(districtCoordinates[9], 1)
             }
           });
 
@@ -473,7 +463,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             else {
 
-            assaultURL = `http://127.0.0.1:5000/crimedata/${name}`
+                // var spaceName = name;
+                var spaceName = name;
+                var noSpaceName = encodeURIComponent(spaceName);
+
+                // var url = baseUrl + encodedUsername;
+                console.log(noSpaceName)
+
+            assaultURL = `http://127.0.0.1:5000/crimedata/${noSpaceName}`
             console.log(assaultURL)
             // current.push(`${name}`)
             heatLayer.clearLayers()
@@ -488,89 +485,226 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
+// document.addEventListener("DOMContentLoaded", function () {
 
 
-        // Get the dropdown element by its unique id
-        const dropdown2 = document.getElementById("crime-chart-selector");
-        const dropdownMenu2 = dropdown2.querySelector(".dropdown-menu");
-        const dropdownText2 = dropdown2.querySelector(".btn");
+//         // Get the dropdown element by its unique id
+//         const dropdown2 = document.getElementById("crime-chart-selector");
+//         const dropdownMenu2 = dropdown2.querySelector(".dropdown-menu");
+//         const dropdownText2 = dropdown2.querySelector(".btn");
     
     
-        crimes = [ 'ASSAULT', 'ARSON', 'BATTERY', 'BIKE', 'BOMB', 'BUNCO', 'BURGLARY', 'COUNTERFEIT', 'CREDIT CARD', 'CRIMINAL HOMICIDE', 'DISTURBING THE PEACE', 'FORGERY', 'EMBEZZLEMENT', 'EXTORTION', 'HUMAN TRAFFICKING', 'INDECENT EXPOSURE', 'KIDNAPPING', 'LEWD', 'PICKPOCKET', 'ROBBERY', 'SHOPLIFTING', 'SEX', 'STALKING', 'THEFT', 'TRESPASSING', 'VANDALISM', 'VEHICLE','OTHER']
+//         crimes = [ 'ASSAULT', 'ARSON', 'BATTERY', 'BIKE', 'BOMB', 'BUNCO', 'BURGLARY', 'COUNTERFEIT', 'CREDIT CARD', 'CRIMINAL HOMICIDE', 'DISTURBING THE PEACE', 'FORGERY', 'EMBEZZLEMENT', 'EXTORTION', 'HUMAN TRAFFICKING', 'INDECENT EXPOSURE', 'KIDNAPPING', 'LEWD', 'PICKPOCKET', 'ROBBERY', 'SHOPLIFTING', 'SEX', 'STALKING', 'THEFT', 'TRESPASSING', 'VANDALISM', 'VEHICLE','OTHER']
     
-        // Loop through the names array and create dropdown items
-        crimes.forEach(function (name) {
-            const dropdownItem = document.createElement("a");
-            dropdownItem.classList.add("dropdown-item");
-            dropdownItem.href = "#"; // You can set the link behavior if needed
-            dropdownItem.textContent = name;
+//         // Loop through the names array and create dropdown items
+//         crimes.forEach(function (name) {
+//             const dropdownItem = document.createElement("a");
+//             dropdownItem.classList.add("dropdown-item");
+//             dropdownItem.href = "#"; // You can set the link behavior if needed
+//             dropdownItem.textContent = name;
         
-            dropdownItem.addEventListener("click", function () {
-                console.log(name); // Log the selected item's text in the console
-                dropdownText2.textContent = name
+//             dropdownItem.addEventListener("click", function () {
+//                 console.log(name); // Log the selected item's text in the console
+//                 dropdownText2.textContent = name
     
-                if (name == 'OTHER') {
-                    assaultURL = `http://127.0.0.1:5000/crimedata/other/all`
-                    console.log(assaultURL)
-                    // current.push(`${name}`)
+//                 if (name == 'OTHER') {
+//                     assaultURL = `http://127.0.0.1:5000/crimedata/other/all`
+//                     console.log(assaultURL)
+//                     // current.push(`${name}`)
                     
-                    data(assaultURL)
+//                     data(assaultURL)
     
-                }
+//                 }
     
-                else {
+//                 else {
     
-                assaultURL = `http://127.0.0.1:5000/crimedata/${name}`
-                console.log(assaultURL)
-                // current.push(`${name}`)
-                
-                data(assaultURL)
-                }
-              });
-    
-            // Append the item to the dropdown menu
-            dropdownMenu2.appendChild(dropdownItem);
-        });
-        });
-
-// particlesJS("particles-js", {"particles":{"number":{"value":80,"density":{"enable":true,"value_area":800}},
-//     "color":{"value":"#6a1e7a"},"shape":{"type":"circle","stroke":{"width":1,"color":"#000000"},"polygon":{"nb_sides":6},
-//     "image":{"src":"img/github.svg","width":100,"height":100}},
-//     "opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},
-//     "size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},
-//     "line_linked":{"enable":true,"distance":272.58005034713887,"color":"#ffffff","opacity":0.4,"width":1},
-//     "move":{"enable":true,"speed":1.603412060865523,"direction":"none","random":false,"straight":false,"out_mode":"bounce","bounce":false,
-//     "attract":{"enable":false,"rotateX":2164.606282168456,"rotateY":2084.43567912518}}},"interactivity":{"detect_on":"canvas",
-//     "events":{"onhover":{"enable":true,"mode":"repulse"},"onclick":{"enable":true,"mode":"repulse"},"resize":true},
-//     "modes":{"grab":{"distance":767.4129656247711,"line_linked":{"opacity":1}},
-//     "bubble":{"distance":353.2535873510851,"size":178.65698670629592,"duration":5.5221250436491465,"opacity":8,"speed":3},
-//     "repulse":{"distance":200,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},
-//     "retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; 
-//     stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); 
-//     count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); 
-//         if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { 
-//             count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } 
-//             requestAnimationFrame(update); }; requestAnimationFrame(update);;
-// var chartData = d3.json(url).then(data => {
-
-//     // iterate over crime data
-    
-//         console.log(data)
-    
-//         let chartArray = []
-    
-//         for (i = 0; i < data.length; i++) {
-      
-//             if (selection == 'OTHER') {
-//                 assaultURL = `http://127.0.0.1:5000/crimedata/other/all`
+//                 assaultURL = `http://127.0.0.1:5000/crimedata/${name}`
 //                 console.log(assaultURL)
 //                 // current.push(`${name}`)
                 
 //                 data(assaultURL)
+//                 }
+//               });
+    
+//             // Append the item to the dropdown menu
+//             dropdownMenu2.appendChild(dropdownItem);
+//         });
+//         });
 
-//             }}
-//         }
+// Open the layer control by triggering a click event on its toggle button
+
+
+var controlToggle = document.querySelector('.leaflet-control-layers-toggle');
+if (controlToggle) {
+    controlToggle.click();
+}
+
+// Define a function to fetch data from the API and create the chart.
+function createAgeDistributionChart() {
+    // Replace 'your-api-url' with the actual URL of the API that provides age data.
+    fetch(dataUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Extract ages and count the number of people for each age.
+            const ageData = data.map(item => item['Vict Age']);
+            const ageCounts = {};
+            ageData.forEach(age => {
+                ageCounts[age] = (ageCounts[age] || 0) + 1;
+            });
+
+            // Extract unique ages and their corresponding counts.
+            const ages = Object.keys(ageCounts).map(age => parseInt(age, 10));
+            const counts = Object.values(ageCounts);
+
+            // Create a bar chart using Chart.js.
+            const ctx = document.getElementById('ageChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ages,
+                    datasets: [{
+                        label: 'Distribution of Reported Victim Ages',
+                        data: counts,
+                        backgroundColor: 'rgba(0,0,255, 0.6)',
+                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Age'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '# of People'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+// Call the function to create the chart.
+createAgeDistributionChart();
+
+
+// Define the API URL
+const apiUrl = dataUrl;
+
+// Fetch data from the API
+fetch(apiUrl)
+  .then((response) => response.json())
+  .then((data) => {
+    // Initialize empty objects to store the count of each gender
+    const genderCount = {
+      Male: 0,
+      Female: 0,
+      Other: 0,
+    };
+
+    // Iterate over the data to extract sex information from the 'Vice Sex' attribute
+    data.forEach((entry) => {
+      const sex = entry['Vict Sex'];
+
+      // Increment the count based on the extracted sex information
+      if (sex === 'M') {
+        genderCount.Male++;
+      } else if (sex === 'F') {
+        genderCount.Female++;
+      } else {
+        genderCount.Other++;
+      }
+    });
+
+    // Create an array of gender labels and their corresponding counts
+    const genderLabels = Object.keys(genderCount);
+    const genderData = Object.values(genderCount);
+
+    // Get the canvas element
+    const ctx = document.getElementById('genderChart').getContext('2d');
+
+    // Create the bar chart
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: genderLabels,
+        datasets: [
+          {
+            label: 'Distribution of Sexes',
+            data: genderData,
+            backgroundColor: ['lightblue', 'lightpink', 'gray'], // You can set the colors as desired
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            stepSize: 1,
+          },
+        },
+      },
+    });
+  })
+  .catch((error) => {
+    console.error('Error fetching data:', error);
+  });
+
+
+
+// // Define the URL of the API endpoint
+// const apiUrl = dataUrl;
+
+// // Fetch data from the API
+// fetch(apiUrl)
+//     .then(response => response.json())
+//     .then(data => {
+//         // Extract gender data from the API response
+//         const genders = data.map(entry => entry['Vict Sex']);
+
+//         // Count the occurrences of each gender
+//         const genderCounts = {};
+//         genders.forEach(gender => {
+//             if (genderCounts[gender]) {
+//                 genderCounts[gender]++;
+//             } else {
+//                 genderCounts[gender] = 1;
+//             }
+//         });
+
+//         // Extract labels and data for the pie chart
+//         const labels = Object.keys(genderCounts);
+//         const data2 = Object.values(genderCounts);
+
+//         // Create a pie chart
+//         const ctx = document.getElementById('genderChart').getContext('2d');
+//         new Chart(ctx, {
+//             type: 'pie',
+//             data: {
+//                 labels: labels,
+//                 datasets: [{
+//                     data: data2,
+//                     backgroundColor: ['blue', 'pink', 'gray'], // You can customize the colors
+//                 }],
+//             },
+//             options: {
+//                 title: {
+//                     display: true,
+//                     text: 'Distribution of Sexes',
+//                     fontSize: 16,
+//                 },
+//             },
+//         });
+//     })
+//     .catch(error => console.error('Error fetching data:', error));
+
 
 
 

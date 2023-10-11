@@ -29,6 +29,8 @@
     <!-- Plotly Dependancy -->
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
   </head>
 
@@ -37,16 +39,8 @@
   <body>
 <!-- Background Gradient -->
 <div class="gradient-background">
-  <!-- particles.js container --> 
-  <!-- <div id="particles-js"></div>  -->
-  <!-- stats - count particles --> 
-  <!-- <div class="count-particles"> 
-    <span class="js-count-particles">--</span> particles </div>  -->
-    <!-- particles.js lib - https://github.com/VincentGarreau/particles.js --> 
-  <!-- <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>  -->
-  <!-- stats.js lib -->
-    <!-- <script src="http://threejs.org/examples/js/libs/stats.min.js"></script> -->
-    
+  <!-- <canvas id="canvas-image-blending"></canvas> -->
+
     <!-- Boarder Info Box -->
     <div class="info-box">
       <!-- Title -->
@@ -70,7 +64,7 @@
           </div>
         </div>
       </div>
-
+      
       <!-- District Dropdown Menu-->
       <div class="container mt-4">
         <div class="container text-center">
@@ -127,11 +121,10 @@
     </div>
     
     <!-- District Dropdown Menu -->
-    <div class="container mt-4">
+    <!-- <div class="container mt-4">
       <div class="container text-center">
         <div class="row align-items-center">
           <div class="col">
-             <!-- Adding button to the middle (only) column  -->
              <div id="crime-chart-selector" class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Select Crime
@@ -139,40 +132,32 @@
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><h6 class="dropdown-header">Crimes</h6></li>
                 <li><hr class="dropdown-divider"></li>
-              <!-- New list items go here and are populated by the data -->
               </ul>
             </div>        
           </div>
         </div>
       </div>
-    </div>  
+    </div>   -->
 
     <!-- Charts -->
-    <div class="container mt-4">
+    <!-- <div class="container mt-4">
       <div class="container text-center">
         <div class="row align-items-start">
-          <div class="col-4">
             <div class="shadowed-box">
-              <div id="bar-chart"></div>
+              <canvas id="ageChart" width="2000" height="600"></canvas>
             </div>
-          </div>
-          <div class="col-4">
-            <div class="shadowed-box">
-              <div id="pie-chart"></div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="shadowed-box">
-              <div id="scatter-chart">
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div> 
     <div>
       <canvas id="Chart"></canvas>
-    </div>
+    </div> -->
+    <canvas id="ageChart" width="2000" height="600"></canvas>
+
+  <div class="container mt-4">
+    <canvas id="genderChart"></canvas>
+  </div> 
+
+
 
     <!-- Footer -->
     <div class="container mt-4">
@@ -184,6 +169,10 @@
         </div>
       </div>
     </div>
+
+    <!-- Call the script -->
+    <script src="granim.min.js"></script>
+
     <!-- Charts.js dependancy -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
