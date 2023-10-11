@@ -44,6 +44,7 @@ CORS(app)
 def welcome():
     return "Welcome!"
 
+# This route performs a get all query on the database.
 @app.route("/crimedata")
 def locations():
     with engine.connect() as conn:
@@ -53,6 +54,7 @@ def locations():
 
     return jsonify(data)
 
+# This route is used to perform queries based on a user input. 
 @app.route("/crimedata/<thing>")
 def assault(thing):
     upper = thing.upper()
@@ -63,12 +65,10 @@ def assault(thing):
 
     return jsonify(data)
 
-crimes = ['ASSAULT', 'ARSON', 'BATTERY', 'BIKE', 'BOMB', 'BUNCO', 'BURGLARY', 'COUNTERFEIT', 'CREDIT CARD', 'CRIMINAL HOMICIDE', 'DISTURBING THE PEACE', 'FORGERY', 'EMBEZZLEMENT', 'EXTORTION', 'HUMAN TRAFFICKING', 'INDECENT EXPOSURE', 'KIDNAPPING', 'LEWD', 'PICKPOCKET', 'ROBBERY', 'SHOPLIFTING', 'SEX', 'STALKING', 'THEFT', 'TRESPASSING', 'VANDALISM', 'VEHICLE','OTHER']
-
-
+# This route gets all crimes not specified by the "thing" route.
 @app.route("/crimedata/other/all")
+
 def other():
-    # upper = other.upper()
     with engine.connect() as conn:
         result = conn.execute(f"SELECT * FROM LA_Crime_Data WHERE [Crm Cd Desc] NOT LIKE '%ASSAULT%'\
                                 AND [Crm Cd Desc] NOT LIKE '%ARSON%'\
@@ -103,37 +103,7 @@ def other():
 
     return jsonify(data)
 
-# @app.route("/crimedata/Arson")
-# def arson():
-#     with engine.connect() as conn:
-#         result = conn.execute("SELECT * FROM LA_Crime_Data WHERE [Crm Cd Desc] REGEXP 'ASSAULT';")
-
-#         data = [dict(row) for row in result]   
-
-#     return jsonify(data)
-
-# @app.route("/crimedata/<Battery>")
-# def battery():
-#     with engine.connect() as conn:
-#         result = conn.execute("SELECT * FROM LA_Crime_Data WHERE [Crm Cd Desc] REGEXP 'BATTERY';")
-
-#         data = [dict(row) for row in result]   
-
-#     return jsonify(data)
-
-# @app.route("/crimedata/Battery")
-# def battery():
-#     with engine.connect() as conn:
-#         result = conn.execute("SELECT * FROM LA_Crime_Data WHERE [Crm Cd Desc] REGEXP 'BATTERY';")
-
-#         data = [dict(row) for row in result]   
-
-#     return jsonify(data)
-
-
-
-
-
+# This route calls an API to get Lat and Long data from a GEOJSON
 @app.route("/stations")
 def stations():
 
@@ -156,6 +126,7 @@ def stations():
 
     return (new_geojson_dict)
 
+# This route calls an API to get Lat and Long data from a GEOJSON for the purpose of drawing boundaries.
 @app.route("/cityareas")
 def cityareas():
 
@@ -179,7 +150,7 @@ def cityareas():
     return (new_geojson_dict2)
 
 
-
+#  Boilerplate
 if __name__ == '__main__':
     app.run(debug=True)
 
